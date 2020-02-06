@@ -1,0 +1,5 @@
+[[dataset]]
+name = "neuroproof_examples"
+hdf5_file = "/groups/flyem/data/dingx/diluvian_data/training_sample2/testing_data.h5"
+image_dataset = "volume"
+use_keras_cache = false
