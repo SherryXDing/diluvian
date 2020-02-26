@@ -1,13 +1,13 @@
-random_seed = 1
+random_seed = 8
 
 [volume]
 resolution = [1, 1, 1]
-label_downsampling = "majority"
+label_downsampling = "conjunction"
 
 [model]
 input_fov_shape = [33, 33, 33]
 output_fov_shape = [33, 33, 33]
-output_fov_move_fraction = 8
+output_fov_move_fraction = 4
 v_true = 0.95
 v_false = 0.05
 t_move = 0.9
@@ -16,7 +16,7 @@ move_check_thickness = 1
 move_priority = "descending"
 move_recheck = true
 training_subv_shape = [49, 49, 49]
-validation_subv_shape = [65, 65, 65]
+validation_subv_shape = [49, 49, 49]
 
 [network]
 factory = "diluvian.network.make_flood_fill_unet"
@@ -38,20 +38,21 @@ unet_downsample_mode = "fixed_rate"
 resolution = [1, 1, 1]
 
 [optimizer]
-lr = 0.001
+lr = 0.0001
 momentum = 0.5
 nesterov = true
-klass = "SGD"
+klass = "Adam"
+decay = 0.00001
 loss = "binary_crossentropy"
 
 [training]
 num_gpus = 4
-num_workers = 4
-gpu_batch_size = 8
-batch_size = 32
-training_size = 1024
-validation_size = 128
-total_epochs = 100000
+num_workers = 8
+gpu_batch_size = 16
+batch_size = 64
+training_size = 65536
+validation_size = 16384
+total_epochs = 1000
 reset_generators = false
 #fill_factor_bins = null  # To use: uncomment and replace null with value
 patience = 20
@@ -63,7 +64,6 @@ augment_validation = true
 augment_use_both = true
 augment_mirrors = [0, 1, 2]
 augment_permute_axes = [[0, 2, 1]]
-augment_artifacts = []
 
 [training.partitions]
 ".*" = [2, 1, 1]
@@ -75,21 +75,21 @@ augment_artifacts = []
 ".*" = [1, 0, 0]
 
 [training.validation_metric]
-metric = "diluvian.util.binary_f_score"
-threshold = true
+metric = "diluvian.util.binary_crossentropy"
+threshold = false
 mode = "max"
 
 [training.validation_metric.args]
-beta = 0.50000000000000000
+eps = 0.05
 
 [[training.augment_missing_data]]
 axis = 0
-prob = 0.01000000000000000
+prob = 0.03000000000000000
 
 [[training.augment_noise]]
 axis = 0
-mul = 0.05000000000000000
-add = 0.05000000000000000
+mul = 0.1000000000000000
+add = 0.1000000000000000
 
 [[training.augment_contrast]]
 axis = 0

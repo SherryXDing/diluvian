@@ -2,7 +2,7 @@ random_seed = 4
 
 [volume]
 resolution = [1, 1, 1]
-label_downsampling = "conjuction"
+label_downsampling = "conjunction"
 
 [model]
 input_fov_shape = [33, 33, 33]
@@ -49,10 +49,10 @@ loss = "binary_crossentropy"
 num_gpus = 1
 num_workers = 4
 gpu_batch_size = 16
-batch_size = 16
-training_size = 8192
-validation_size = 1024
-total_epochs = 1000
+batch_size = 64
+training_size = 65536
+validation_size = 16384
+total_epochs = 500
 reset_generators = true
 #fill_factor_bins = [0.025, 0.05, 0.075, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9]  # To use: uncomment and replace null with value
 patience = 100
